@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OfficeBus.Models;
+using OfficeBus.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,9 +34,26 @@ namespace OfficeBus.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult Registration()
         {
-            return View();
+            RegisterVM vm = new RegisterVM();
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult Registration(RegisterVM registerVM)
+        {
+            if(ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "User Already Exists.");
+                return View(registerVM);
+            }
+            else
+            {
+                return View(registerVM);
+            }
+
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
